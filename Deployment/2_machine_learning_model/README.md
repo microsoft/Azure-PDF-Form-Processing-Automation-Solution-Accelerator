@@ -13,7 +13,7 @@ You will see two folders that contain sample training forms, as illustrated belo
 2. On the left side of the menu pane, select `Data storage`, then `Containers` and go to the `samples` container. 
 3. Create a new folder and name it `train`.  
 4. In the `train` folder, create two folders. One named `contoso_set_1` and the other named `contoso_set_2`.  
-5. Upload the sample labeling files in [data/samples/train/contoso_set_1](../data/samples/train/contoso_set_1) and [data/samples/train/contoso_set_2](../data/samples/train/contoso_set_2)  into the corresponding folders. You now have two full sets of pre-labeled data to create the machine learning models. 
+5. Upload the sample labeling files in [Data/samples/train/contoso_set_1](../Data/samples/train/contoso_set_1) and [Data/samples/train/contoso_set_2](../Data/samples/train/contoso_set_2)  into the corresponding folders. You now have two full sets of pre-labeled data to create the machine learning models. 
 
 ### Step 3: Train and Merge Form Recognizer ML Models  
 In this step you will train custom Azure Form Recognizer ML models and merge them into a composite model. For more information, please refer to Azure online document [Compose Custom Models v3.0](https://docs.microsoft.com/en-us/azure/applied-ai-services/form-recognizer/compose-custom-models-v3?tabs=studio).
