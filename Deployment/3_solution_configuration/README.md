@@ -20,6 +20,7 @@ Please note: If you do not have forms sent to an outlook email for processing, y
 
    ![ref](../Images/LA-Outlook-Connection-Authorize.png)
 
-   4. From the [Azure Portal](https://portal.azure.com), locate the outlook logic app In the menu pane on the left, under the `Development Tools` section, click `Logic app designer`, click `Save` to save the logic app. Now the logic app will be using the authorized outlook connection.
-   4. Click `Run Trigger` to activate the logic app.
+4. From the [Azure Portal](https://portal.azure.com), locate the outlook logic app In the menu pane on the left, under the `Development Tools` section, click `Logic app designer`, click `Save` to save the logic app. Now the logic app will be using the authorized outlook connection.
+
+5. Click `Run Trigger` to activate the logic app.
 
