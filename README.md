@@ -23,7 +23,7 @@ The solution accelerator receives the PDF forms, extracts the fields from the fo
 
 The solution accelerator was designed with a modular, metadata-driven methodology. It can be utilized directly without code modification to process and visualize any single-page PDF forms such as safety forms, invoices, incident records, health screening forms, payment authorization forms, and many others.
 
-To use the solution accelerator, you only need to collect sample PDF forms, train a new model to learn the form's layout and plug the model into the solution. The PowerBI report will need to be re-designed for your specific data sets to drive insights.
+To use the solution accelerator, you only need to collect sample PDF forms, train a new model to learn the form's layout and plug the model into the solution. The Power BI report will need to be re-designed for your specific data sets to drive insights.
 
 **Who can leverage this solution?** Businesses have many types of single-page forms to be processed and analyzed. For example, safety forms, invoices, incident records, housing application forms, credit card application forms, job applications forms, and many others.
 
@@ -33,7 +33,7 @@ To use the solution accelerator, you only need to collect sample PDF forms, trai
 
 **What are the input?** Input to this solutions are (1) single-page pdf forms or (2) multiple page pdf documents with each page as a self-contained form. In this case, the solution has a 'split pdf file' feature to split the multiple page pdf file into single-page pdf forms. 
 
-**How to deploy and test the solution?**  The solution is supplied with sample manufacture safety forms, form recognizer labeled files, and a Power BI model. Please follow the step by step [Deployment Guide](./Deployment/README.md) to deploy and set up the solution to your own Azure subscription, test the solution with the test forms supplied, and then visualized the data using the PowerBI model supplied. 
+**How to deploy and test the solution?**  The solution is supplied with sample manufacture safety forms, form recognizer labeled files, and a Power BI model. Please follow the step by step [Deployment Guide](./Deployment/README.md) to deploy and set up the solution to your own Azure subscription, test the solution with the test forms supplied, and then visualized the data using the Power BI model supplied. 
 
 **Key Azure technologies** utilized in this solution are:  Azure Data Lake Storage,  Azure Form Recognizer, Azure Logic Apps, Azure Functions App, Azure Cosmos DB, and Power BI.  **The Azure Form Recognizer** is a cloud-based Azure Applied AI service that uses machine learning models to extract and analyze fields, text, and tables from documents or images. **Azure Logic App** is a cloud-based platform for creating and running automated end-to-end workflows. **Azure Functions App** provides low-cost, custom application logic development and data processing capabilities to help businesses solve complex problems with ease of design, development, deployment, and maintenance. **Azure Cosmos DB** is a fully managed, serverless NoSQL database for high-performance applications of any size or scale. 
 
@@ -41,7 +41,7 @@ To use the solution accelerator, you only need to collect sample PDF forms, trai
 
 ## Prerequisites
 
-To use this solution accelerator, you will need access to an [Azure subscription](https://azure.microsoft.com/en-us/free/). An understanding of Azure Form Recognizer, Azure Form Recognizer Studio, Azure Logic Apps, Azure Functions, Azure Cosmos DB, and PowerBI will be helpful. 
+To use this solution accelerator, you will need access to an [Azure subscription](https://azure.microsoft.com/en-us/free/). An understanding of Azure Form Recognizer, Azure Form Recognizer Studio, Azure Logic Apps, Azure Functions, Azure Cosmos DB, and Power BI will be helpful. 
 
 For additional training and support, please review:
 
@@ -63,7 +63,7 @@ Below architecture diagram illustrates the main components and information flow 
 
 ## Power BI Dashboard
 
-Below PowerBI dashboard illustrates overview of sample safety form processing results, showing the number of occurrences by selected categories. The category is the field key defined by the Azure Form Recognizer labeling tool.  
+Below Power BI dashboard illustrates overview of sample safety form processing results, showing the number of occurrences by selected categories. The category is the field key defined by the Azure Form Recognizer labeling tool.  
 
 ![PBI w Text Search](./Deployment/Images/PBI-Overview.png)
 
