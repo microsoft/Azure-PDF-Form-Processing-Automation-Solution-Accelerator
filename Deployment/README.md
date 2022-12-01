@@ -3,6 +3,8 @@ Clone or download this repository. Navigate to the project's root directory, the
 
 Then follow the steps below to set up the Azure environment and solution, then configure and test the solution. 
 
+For a quick video introduction, you can watch the 18 min YouTube Video: [Azure PDF Form Processing Automation SA - YouTube](https://www.youtube.com/watch?v=2zvoO1jc8CE).
+
 ## Step 1: Deploy the Solution Accelerator
 
 Follow instructions in the folder `1_deployment_scripts`: [Deployment Scripts Guide](./1_deployment_scripts/README.md). 
