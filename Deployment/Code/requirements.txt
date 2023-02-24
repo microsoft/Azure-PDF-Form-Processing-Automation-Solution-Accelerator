@@ -8,6 +8,7 @@ azure-identity
 requests
 #azure-ai-formrecognizer
 azure-ai-formrecognizer==3.2.0b3
-PyPDF2
+#PyPDF2
+PyPDF2<3.0
 
 
