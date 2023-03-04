@@ -33,6 +33,8 @@ To use the solution accelerator, you only need to collect sample PDF forms, trai
 
 **What are the input?** Input to this solutions are (1) single-page pdf forms or (2) multiple page pdf documents with each page as a self-contained form. In this case, the solution has a 'split pdf file' feature to split the multiple page pdf file into single-page pdf forms. 
 
+**Limitations:** Each PDF form must fit into **a single page pdf file**. If the PDF file contains multiple pages, the system assumes that each page is a self-contained PDF form, and will split the multi-page PDF file into single pages before processing. After splitting, each split file will be only one page, containing a single form. Please review the sample files posted here to see the format: [Single Page PDF File Sample](./Deployment/Data/samples/test/contoso_set_1/ContosoSafety360-Sample-1.pdf) and [Multi Page PDF File Sample](./Deployment/Data/samples/test/contoso_set_1/ContosoSafety360-Combo-1.pdf).
+
 **How to deploy and test the solution?**  The solution is supplied with sample manufacture safety forms, form recognizer labeled files, and a Power BI model. Please follow the step by step [Deployment Guide](./Deployment/README.md) to deploy and set up the solution to your own Azure subscription, test the solution with the test forms supplied, and then visualized the data using the Power BI model supplied. 
 
 **Key Azure technologies** utilized in this solution are:  Azure Data Lake Storage,  Azure Form Recognizer, Azure Logic Apps, Azure Functions App, Azure Cosmos DB, and Power BI.  **The Azure Form Recognizer** is a cloud-based Azure Applied AI service that uses machine learning models to extract and analyze fields, text, and tables from documents or images. **Azure Logic App** is a cloud-based platform for creating and running automated end-to-end workflows. **Azure Functions App** provides low-cost, custom application logic development and data processing capabilities to help businesses solve complex problems with ease of design, development, deployment, and maintenance. **Azure Cosmos DB** is a fully managed, serverless NoSQL database for high-performance applications of any size or scale. 
@@ -57,9 +59,9 @@ For additional training and support, please review:
 Get started by deploying the solution accelerator to a specified resource group in your own subscription. Go to the [Deployment Guide](./Deployment/README.md) to set up your Azure environment, create necessary Azure resources, and test the solution. 
 
 ## Architecture
-Below architecture diagram illustrates the main components and information flow of this solution accelerator. 
+Below architecture diagram illustrates the main components and information flow of this solution accelerator. For the work flow details, please refer to the page for [Architecture Description](./Deployment/Architecture_Description/README.md). 
 
-![Architecture Diagram](./Deployment/Images/Arch-SA-PDF-Form-Processing-Automation.png "PDF Form Processing Automation Architecture Diagram")
+![Architecture Diagram](./Deployment/Images/Arch-SA-PDF-Form-Processing-Automation-AAC.png "PDF Form Processing Automation Architecture Diagram")
 
 ## Power BI Dashboard
 
