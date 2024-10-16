@@ -52,16 +52,16 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             and date_time and year_number and month_number and day_number:
             logging.info(f"All required fields are received: {msg}")
         else:
-            http_body_msg = f"Not all required fields are present in requet: {msg} "
-            return func.HttpResponse(body=http_body_msg, status_code=100)
+            http_body_msg = f"Not all required fields are present in request: {msg} "
+            return func.HttpResponse(body=http_body_msg, status_code=400)
 
         my_account_url = f"https://{storage_account}.blob.core.windows.net"
-        input_blob_url = f"{my_account_url}" + f"{file_path}"  # preferred method 
+        input_blob_url = f"{my_account_url}{file_path}"  # preferred method 
 
         ################################################################## 
         # Establish Security Model 
         # Use Managed Identity 
-        # RG_MID_CLIENT_ID is the Azure Client ID of the Resource Group Managed Identity. Set in Fuctions App Settings   
+        # RG_MID_CLIENT_ID is the Azure Client ID of the Resource Group Managed Identity. Set in Functions App Settings   
         client_id = os.getenv("RG_MID_CLIENT_ID")
         my_credential = DefaultAzureCredential(managed_identity_client_id=client_id)
 
@@ -69,19 +69,22 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # Start working with form recognizer 
         ##################################################################
 
-        # All set as environment varibales in Fuctions App Settings 
+        # All set as environment variables in Functions App Settings 
         fr_endpoint = os.getenv("AZURE_FORM_RECOGNIZER_ENDPOINT")
         apim_key = os.getenv("AZURE_FORM_RECOGNIZER_KEY")
         model_id = os.getenv("CUSTOM_BUILT_MODEL_ID")
         
+        if not (fr_endpoint and apim_key and model_id):
+            raise ValueError("Form Recognizer endpoint, key, or model ID not found in environment variables.")
+
         document_analysis_client = DocumentAnalysisClient(
-        endpoint=fr_endpoint, credential=AzureKeyCredential(apim_key))
+            endpoint=fr_endpoint, credential=AzureKeyCredential(apim_key))
 
         poller = document_analysis_client.begin_analyze_document_from_url(
-                model=model_id, document_url=input_blob_url)
+                model_id=model_id, document_url=input_blob_url)
         analyzedResult = poller.result() # analyzedResult -AnalyzeResult Class 
 
-        logging.info(f"form recognizer analyzed successfully.")
+        logging.info(f"Form recognizer analyzed successfully.")
 
         ##################################################################
         # End working with form recognizer 
@@ -159,6 +162,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     except Exception as ex_main:
         logging.error(f"Exception occurred: {ex_main}. ")
+        return func.HttpResponse(body=f"Error: {str(ex_main)}", status_code=500)
     else:
         logging.info(f"Processing Successful. Ready save data to Azure Data Lake Storage and then to send response to sender.")
         output_data_json  = json.dumps(output_data)
@@ -169,4 +173,3 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         output_blob_client.upload_blob(output_data_json, overwrite=True, blob_type="BlockBlob")
         # return output data to caller as http body 
     return func.HttpResponse(body=output_data_json, status_code=200)
-
