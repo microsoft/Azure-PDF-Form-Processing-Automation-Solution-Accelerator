@@ -5,8 +5,8 @@ Please follow the steps below to set up the solution accelerator.
 
 1. From the the [Azure Portal](https://portal.azure.com), locate your subscription and resource group you used to deploy the solution in the previous steps.
 2. Find the Azure Functions App, click the resource and get to its overview page. 
-3. On left panel, under section `Settings`, click `Configuration`.  Under the **Application settings**, locate `CUSTOM_BUILT_MODEL_ID`, click it and edit the value. Replace with the model id you created from form recognizer when you trained the model. If you followed the instructions in the [Machine Learning Model Guide](../2_machine_learning_model/README.md), your model id was set as `contoso-safety-forms`. 
-4. click `OK` and then `Save`. After this, your azure functions app will work with this form recognizer model.![PowerBIDataSource](../Images/AF-Set-Configuration-Model-ID.png)
+3. On left panel, under section `Settings`, click `Configuration`.  Under the **Application settings**, locate `CUSTOM_BUILT_MODEL_ID`, click it and edit the value. Replace with the model id you created from Azure Document Intelligence when you trained the model. If you followed the instructions in the [Machine Learning Model Guide](../2_machine_learning_model/README.md), your model id was set as `contoso-safety-forms`. 
+4. click `OK` and then `Save`. After this, your azure functions app will work with this model.![PowerBIDataSource](../Images/AF-Set-Configuration-Model-ID.png)
 
 ## Step 2: Set Up Outlook Logic App (Optional)
 

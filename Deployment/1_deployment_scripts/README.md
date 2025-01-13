@@ -22,7 +22,7 @@ You will prompted for the followings:
 1. `subscriptionId` (Azure Subscription ID)
 1. `location` (Azure Region)
 1. `resourceGroupName` (Resource Group Name, new or existing)
-1. `aadEmail` (Your Azure Active Directory Email)
+1. `aadEmail` (Email associated with your Microsoft Entra ID, formerly Azure Active Directory)
 1. `resourceNamePrefix` (This prefix will be added to the beginning of all the deployed resource names.) 
 
 The PowerShell scripts also executes **Azure Functions Core Tools** command to deploy Python code to Azure Functions app. 
@@ -46,7 +46,7 @@ You will prompted for the followings:
 
 ## Additional Information
 
-In order to grant you the right permissions to create a key vault and use the key vault to securely save and retrieve sensitive information, the script needs your Azure Active Directory user Object ID, which is associated with your AAD email. If you have issue deploying the key vault and receiving error on policy, please check your azure active directory (AAD) `Object ID` associated with your AAD email. To find your AAD Object ID, go to Azure Portal, on left pane, click `Azure Active Directory`, then on left pane, under `Manage`, click `users`. Search for user and click the user, you will find the user AAD Object ID. Copy the value of `Object ID` .
+In order to grant you the right permissions to create a key vault and use the key vault to securely save and retrieve sensitive information, the script needs your Microsoft Entra ID user Object ID, which is associated with your registred email. If you have issue deploying the key vault and receiving error on policy, please check your Microsoft Entra ID  `Object ID` associated with your registerd email. To find your Microsoft Entra ID Object ID, go to Azure Portal, on left pane, click `Microsoft Entra ID`, then on left pane, under `Manage`, click `users`. Search for user and click the user, you will find the user AAD Object ID. Copy the value of `Object ID` .
 
 In [main-deploy.ps1](./main-deploy.ps1), replace this line "`$objectId = az ad user show --id $aadEmail --query id`" with "`$objectId ='your-aad-object-id'`", where `your-aad-object-id` needs to be the Object ID value you copied above. 
 

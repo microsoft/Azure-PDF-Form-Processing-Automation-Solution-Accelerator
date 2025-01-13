@@ -1,8 +1,8 @@
-# Create Form Recognizer Machine Learning Model 
-Follow the steps below to train a form recognizer composite machine learning (ML) model. This also includes the steps to train a non-composite ML model. 
+# Create Document Intelligence Machine Learning Model 
+Follow the steps below to train a composite machine learning (ML) model. This also includes the steps to train a non-composite ML model. 
 
 ## Step 1: Locate the Sample Data Files
-After finishing the deployment process described in [Deployment Scripts Guide](../1_deployment_scripts/README.md), your form recognizer resource should be ready for you to start creating new Form Recognizer ML model. From your cloned repository, navigate to the project root directory then to `Deployment\Data\samples\train`
+After finishing the deployment process described in [Deployment Scripts Guide](../1_deployment_scripts/README.md), your document intelligence resource should be ready for you to start creating new ML model. From your cloned repository, navigate to the project root directory then to `Deployment\Data\samples\train`
 
 You will see two folders that contain sample training forms, as illustrated below. 
 
@@ -15,22 +15,23 @@ You will see two folders that contain sample training forms, as illustrated belo
 4. In the `train` folder, create two folders. One named `contoso_set_1` and the other named `contoso_set_2`.  
 5. Upload the sample labeling files in [Data/samples/train/contoso_set_1](../Data/samples/train/contoso_set_1) and [Data/samples/train/contoso_set_2](../Data/samples/train/contoso_set_2)  into the corresponding folders. You now have two full sets of pre-labeled data to create the machine learning models. 
 
-### Step 3: Train and Merge Form Recognizer ML Models  
-In this step you will train custom Azure Form Recognizer ML models and merge them into a composite model. For more information, please refer to Azure online document [Compose Custom Models v3.0](https://docs.microsoft.com/en-us/azure/applied-ai-services/form-recognizer/compose-custom-models-v3?tabs=studio).
-1. Go to [Form Recognizer Studio](https://formrecognizer.appliedai.azure.com/studio), scroll down to  `Custom Model` and select `Create new`, as illustrated below. 
+### Step 3: Train and Merge ML Models  
+In this step you will train custom ML models and merge them into a composite model. For more information, please refer to Azure online document [how to create and compose custom models with Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/how-to-guides/compose-custom-models?view=doc-intel-4.0.0&viewFallbackFrom=form-recog-3.0.0&preserve-view=true&tabs=studio).
+
+1. Go to [Document Intelligence Studio - Microsoft Azure](https://documentintelligence.ai.azure.com/studio), scroll down to  `Custom Model` and select `Create new`, as illustrated below. 
 
 ![FR Create Custom Model](../Images/FR-Create-Custom-Model.png)
 
 2. Select `+Create a project` to create a project. 
 3. Enter a project name. For example `SafetyFormProject-Set-1` or any other project name of your choice.
-4. Enter a project description. For example `Custom form recognizer model with samples contoso_set_1` and click `Continue`.
-5. Select your Subscription, Resource Group and Azure Form Recognizer created by the deployment scripts [main-deploy.ps1](../1_deployment_scripts/main-deploy.ps1). 
+4. Enter a project description. For example `Custom model with samples contoso_set_1` and click `Continue`.
+5. Select your Subscription, Resource Group and Azure AI Document Intelligence created by the deployment scripts [main-deploy.ps1](../1_deployment_scripts/main-deploy.ps1). 
 6. Select the latest API Version. This solution was tested with API version 2022-08-31, as illustrated below. Click `Continue`.![FR Custom Model AIP Version](../Images/FR-Custom-Model-API-Version.png)
 7. Now you will be prompted to enter the training data source, as illustrated below. Select your subscription. Select Resource Group, and Azure storage created by the deployment scripts [main-deploy.ps1](../1_deployment_scripts/main-deploy.ps1). Enter `samples` in the Blob container field. Enter `train/contoso_set_1` in the Folder path field. Click `Continue`. 
 
 ![FR Training Data Set](../Images/FR-Training-Data-Set.png)
 
-8. Review Information and click `Create Project`. This step connects the form recognizer studio to Azure data lake storage/container resource in your subscription to access the training data. 
+8. Review Information and click `Create Project`. This step connects the document intelligence studio to Azure data lake storage/container resource in your subscription to access the training data. 
 9. After the project is created, forms with OCR, field key and value pair will appear as illustrated below. Click '`Train`' on upper right corner, 
 
 ![FR Label Data and Train](../Images/FR-Label-Data-and-Train.png)

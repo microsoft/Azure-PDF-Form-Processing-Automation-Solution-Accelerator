@@ -117,9 +117,9 @@ az deployment group create --resource-group $resourceGroupName `
 #            resource level managed identity
 #            azure data lake storage
 #            azure cosmos db
-#            azure form recognizer
+#            azure AI document Intelligence (formerly form recognizer)
 #         B: assign the right permissions for the above resources. 
-#         C: save various keys and form recognizer end point into key vault 
+#         C: save various keys and AI document Intelligence end point into key vault 
 ################################################################################################
 az deployment group create --resource-group $resourceGroupName `
     --parameters location=$location `

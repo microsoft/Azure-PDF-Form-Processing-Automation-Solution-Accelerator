@@ -35,19 +35,17 @@ To use the solution accelerator, you only need to collect sample PDF forms, trai
 
 **Limitations:** Each PDF form must fit into **a single page pdf file**. If the PDF file contains multiple pages, the system assumes that each page is a self-contained PDF form, and will split the multi-page PDF file into single pages before processing. After splitting, each split file will be only one page, containing a single form. Please review the sample files posted here to see the format: [Single Page PDF File Sample](./Deployment/Data/samples/test/contoso_set_1/ContosoSafety360-Sample-1.pdf) and [Multi Page PDF File Sample](./Deployment/Data/samples/test/contoso_set_1/ContosoSafety360-Combo-1.pdf).
 
-**How to deploy and test the solution?**  The solution is supplied with sample manufacture safety forms, form recognizer labeled files, and a Power BI model. Please follow the step by step [Deployment Guide](./Deployment/README.md) to deploy and set up the solution to your own Azure subscription, test the solution with the test forms supplied, and then visualized the data using the Power BI model supplied. 
+**How to deploy and test the solution?**  The solution is supplied with sample manufacture safety forms, azure AI Document Intelligence labeled files, and a Power BI model. Please follow the step by step [Deployment Guide](./Deployment/README.md) to deploy and set up the solution to your own Azure subscription, test the solution with the test forms supplied, and then visualized the data using the Power BI model supplied. 
 
-**Key Azure technologies** utilized in this solution are:  Azure Data Lake Storage,  Azure Form Recognizer, Azure Logic Apps, Azure Functions App, Azure Cosmos DB, and Power BI.  **The Azure Form Recognizer** is a cloud-based Azure Applied AI service that uses machine learning models to extract and analyze fields, text, and tables from documents or images. **Azure Logic App** is a cloud-based platform for creating and running automated end-to-end workflows. **Azure Functions App** provides low-cost, custom application logic development and data processing capabilities to help businesses solve complex problems with ease of design, development, deployment, and maintenance. **Azure Cosmos DB** is a fully managed, serverless NoSQL database for high-performance applications of any size or scale. 
-
-![Process flow](./Deployment/Images/Process-Flow.png "Process flow")
+**Key Azure technologies** utilized in this solution are:  Azure Data Lake Storage,  Azure AI Document Intelligence, Azure Logic Apps, Azure Functions App, Azure Cosmos DB, and Power BI.  **The Azure AI Document Intelligence** is a cloud-based Azure Applied AI services to extract and analyze fields, text, and tables from documents or images. **Azure Logic App** is a cloud-based platform for creating and running automated end-to-end workflows. **Azure Functions App** provides low-cost, custom application logic development and data processing capabilities to help businesses solve complex problems with ease of design, development, deployment, and maintenance. **Azure Cosmos DB** is a fully managed, serverless NoSQL database for high-performance applications of any size or scale. 
 
 ## Prerequisites
 
-To use this solution accelerator, you will need access to an [Azure subscription](https://azure.microsoft.com/en-us/free/). An understanding of Azure Form Recognizer, Azure Form Recognizer Studio, Azure Logic Apps, Azure Functions, Azure Cosmos DB, and Power BI will be helpful. 
+To use this solution accelerator, you will need access to an [Azure subscription](https://azure.microsoft.com/en-us/free/). An understanding of Azure AI Document Intelligence, Azure Logic Apps, Azure Functions, Azure Cosmos DB, and Power BI will be helpful. 
 
 For additional training and support, please review:
 
-1. [Azure Form Recognizer](https://azure.microsoft.com/en-us/services/form-recognizer/)
+1. [Azure AI Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/overview?view=doc-intel-4.0.0)
 2. [Azure Logic Apps](https://azure.microsoft.com/en-us/services/logic-apps/#overview)
 3. [Azure Functions](https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview)
 4. [Azure Data Lake Storage](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction)
@@ -65,7 +63,7 @@ Below architecture diagram illustrates the main components and information flow 
 
 ## Power BI Dashboard
 
-Below Power BI dashboard illustrates overview of sample safety form processing results, showing the number of occurrences by selected categories. The category is the field key defined by the Azure Form Recognizer labeling tool.  
+Below Power BI dashboard illustrates overview of sample safety form processing results, showing the number of occurrences by selected categories. The category is the field key defined by the Azure AI Document Intelligence labeling tool.  
 
 ![PBI w Text Search](./Deployment/Images/PBI-Overview.png)
 
