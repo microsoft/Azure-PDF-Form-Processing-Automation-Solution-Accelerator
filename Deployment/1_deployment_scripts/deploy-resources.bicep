@@ -52,17 +52,17 @@ resource resourceId 'Microsoft.Resources/deployments@2020-10-01' = {
 //      Resource Group User Assigned MID
 //      Azure Data Lake with containers 
 //      Azure Cosmos DB
-//      Azure Form Recognizer 
+//      Azure AI Document Intelligence (Formerly Azure Form Recognizer) 
 // Role Assignments:
 //      Assigned 'Storage Blob Contributor' Role to Resource Group User Assigned MID
-//      Assigned 'Storage Blob Contributor' Role to Azure Form Recognizer 
+//      Assigned 'Storage Blob Contributor' Role to Azure  AI Document Intelligence  
 // Sensitive Information Saved to Key Vault
 //      Azure Data Lake Primary Key saved to Key Vault as 'AdlsPrimaryKey'
 //      Azure Data Lake End Points saved to Key Vault as 'AdlsEndPointDfs' and 'AdlsEndPointWeb'
 //      Cosmos DB Primary Key saved to Key Vault as 'CosmosDbPrimaryKey'
 //      Cosmos DB Connection String saved to Key Vault as 'CosmosDbConnectionString'
-//      Form Recognizer End Point Saved to Key Vault as 'FormRecognizerEndPoint'
-//      Form Recognizer Key saved to key vault as 'FormRecognizerKey'
+//       AI Document Intelligence End Point Saved to Key Vault as 'FormRecognizerEndPoint'
+//       AI Document Intelligence  Key saved to key vault as 'FormRecognizerKey'
 //=====================================================================================
 
 

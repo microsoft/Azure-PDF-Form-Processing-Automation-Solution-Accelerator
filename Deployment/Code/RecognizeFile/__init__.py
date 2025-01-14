@@ -65,9 +65,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         client_id = os.getenv("RG_MID_CLIENT_ID")
         my_credential = DefaultAzureCredential(managed_identity_client_id=client_id)
 
-        ##################################################################
-        # Start working with form recognizer 
-        ##################################################################
+        ######################################################################
+        # Start working with document intelligence (formerly form recognizer) 
+        ######################################################################
 
         # All set as environment variables in Functions App Settings 
         fr_endpoint = os.getenv("AZURE_FORM_RECOGNIZER_ENDPOINT")
@@ -75,7 +75,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         model_id = os.getenv("CUSTOM_BUILT_MODEL_ID")
         
         if not (fr_endpoint and apim_key and model_id):
-            raise ValueError("Form Recognizer endpoint, key, or model ID not found in environment variables.")
+            raise ValueError("Doc Intelligence aka Form Recognizer endpoint, key, or model ID not found in environment variables.")
 
         document_analysis_client = DocumentAnalysisClient(
             endpoint=fr_endpoint, credential=AzureKeyCredential(apim_key))
@@ -84,14 +84,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 model_id=model_id, document_url=input_blob_url)
         analyzedResult = poller.result() # analyzedResult -AnalyzeResult Class 
 
-        logging.info(f"Form recognizer analyzed successfully.")
+        logging.info(f"Doc Intelligence aka Form recognizer analyzed successfully.")
 
         ##################################################################
-        # End working with form recognizer 
+        # End working with document intelligence aka form recognizer 
         ##################################################################
 
         ################################################################## 
-        # Process form Recognizer Output 
+        # Process Output 
         # Prepare output files for uploading to Azure Storage 
         # Prepare HTTP Output
         field_list = [] # List of Objects

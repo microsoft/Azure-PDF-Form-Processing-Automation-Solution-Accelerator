@@ -9,7 +9,7 @@ For a quick video introduction, you can watch the 18 min YouTube Video: [Azure P
 
 Follow instructions in the folder `1_deployment_scripts`: [Deployment Scripts Guide](./1_deployment_scripts/README.md). 
 
-## Step 2: Create Form Recognizer Machine Learning Model
+## Step 2: Create Machine Learning Model
 
 Follow instructions in the folder `2_machine_learning_model` : [Machine Learning Model Guide](./2_machine_learning_model/README.md).
 

@@ -126,12 +126,12 @@ az deployment group create --resource-group $resourceGroupName `
 #            resource level managed identity
 #            azure data lake storage
 #            azure cosmos db
-#            azure form recognizer
+#            azure Azure AI Document Intelligence (formerly form recognizer)
 #         B: assign the right permissions for the above resources. 
-#         C: save various keys and form recognizer end point into key vault 
+#         C: save various keys and Azure AI Document Intelligence end point into key vault 
 ################################################################################################
 Write-Host "Execute deploy-resources.bicep `r`n" -ForegroundColor Yellow
-Write-Host "Create and set up managed identity, data lake storage, cosmos db, form recognizer `r`n" -ForegroundColor Yellow
+Write-Host "Create and set up managed identity, data lake storage, cosmos db, doc intelligence aka form recognizer `r`n" -ForegroundColor Yellow
 az deployment group create --resource-group $resourceGroupName `
     --parameters location=$location `
     --parameters resourceGroupName=$resourceGroupName `
