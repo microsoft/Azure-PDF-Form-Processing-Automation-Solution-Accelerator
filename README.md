@@ -3,19 +3,39 @@ page_type: sample
 languages:
 - python
 products:
-- azure data lake storage
-- azure-form-recognizer
+- azure-storage
+- azure-event-grid
 - azure-logic-apps
-- azure-functions-app
-- azure cosmos db
+- azure-functions
+- azure-cosmos-db
 - power-bi
 ---
 
-![SafetyFormProcessing](./Deployment/Images/SA-EAE-Banner.png)
-
 # Azure PDF Form Processing Automation Solution Accelerator
 
-For the **Content Understanding starter**, follow the [deployment and verification guide](modern/README.md). It reuses the Contoso safety-form samples with an event-driven Standard Logic App and a Flex Consumption function app. The instructions below describe the original Document Intelligence accelerator; its deploy script and Power BI model are separate from the new starter.
+Process [Contoso safety forms](Deployment/Data/samples/test/contoso_set_1/) with Azure Content Understanding. The starter classifies and segments each PDF, extracts fields such as `Findings`, and flags forms that need a human decision. It saves the extraction evidence so a reviewer can check a value against the source document.
+
+## Get started
+
+- **[Test locally without Azure](modern/README.md#verify-locally-without-azure).** Use Python 3.12 and PowerShell 7 to run the sample-PDF tests and build the deployment packages. This path does not send documents to Azure or create resources.
+- **[Deploy to an Azure sandbox](modern/README.md#prepare-a-sandbox).** Start with a resource group, a configured Foundry resource and model deployment, and a Microsoft Entra app registration. Then [process one document](modern/README.md#deploy-and-check-one-document) and confirm that the result appears in storage and Cosmos DB. This path creates billable resources.
+
+## What happens to a PDF?
+
+1. Upload a PDF of up to 16 MiB to the `raw` container. When the upload completes, Azure Event Grid starts a stateful Logic Apps Standard workflow.
+2. A Python function on Azure Functions Flex Consumption reads the blob with managed identity and submits its bytes to Content Understanding. The function returns an operation ID; the workflow checks its status without holding the original HTTP request open.
+3. After analysis, the validation function writes the full result to `processed/<id>.json` and the operational record to `forms/records` in Azure Cosmos DB for NoSQL. By default, every segment needs a `Findings` value with confidence of at least 0.9. A passing record is `accepted`; a missing or low-confidence value produces `needs_review`. Follow [Review exceptions](modern/README.md#review-exceptions) to record a decision.
+
+Direct upload is the default. [Shared mailbox intake](modern/README.md#connect-a-shared-mailbox-optional) requires Exchange authorization. [Fabric mirroring and Power BI Direct Lake reporting](modern/README.md#connect-analytics-optional) require separate setup. The starter can notify a remediation workflow that you supply; it does not deploy an autonomous agent or a review UI.
+
+## Legacy Document Intelligence accelerator
+
+Maintaining the original deployment? Use its [deployment guide](Deployment/README.md) and [architecture description](Deployment/Architecture_Description/README.md). That version splits PDFs by page and uses a trained Document Intelligence model. Its Power BI report expects the legacy output schema. The Content Understanding starter is a separate deployment, not an in-place upgrade.
+
+<details>
+<summary>Original accelerator overview, architecture diagram, and Power BI screenshots</summary>
+
+![Original safety form processing accelerator](./Deployment/Images/SA-EAE-Banner.png)
 
 Form processing is a critical business function across industries. Many companies are still relying on manual processes, which are costly, time-consuming, and error prone. Replacing these manual processes not only reduces a company’s cost and risk but is also an essential part of a company’s digital transformation journey. 
 
@@ -72,6 +92,8 @@ Below Power BI dashboard illustrates overview of sample safety form processing r
 In addition, you can have a quick overview of the safety forms categorized by important fields such as Department, Owner, Date created. From these charts, you can recognize patterns and trends, as illustrated below. 
 
 ![PBI w Summary](./Deployment/Images/PBI-Metrics.png)
+
+</details>
 
 ## License
 MIT License
