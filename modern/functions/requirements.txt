@@ -1,0 +1,5 @@
+azure-ai-contentunderstanding==1.1.0
+azure-cosmos==4.17.1
+azure-functions==1.26.0
+azure-identity==1.27.0
+azure-storage-blob==12.31.1
