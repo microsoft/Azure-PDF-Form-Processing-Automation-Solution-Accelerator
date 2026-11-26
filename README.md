@@ -15,6 +15,8 @@ products:
 
 # Azure PDF Form Processing Automation Solution Accelerator
 
+For the **Content Understanding starter**, follow the [deployment and verification guide](modern/README.md). It reuses the Contoso safety-form samples with an event-driven Standard Logic App and a Flex Consumption function app. The instructions below describe the original Document Intelligence accelerator; its deploy script and Power BI model are separate from the new starter.
+
 Form processing is a critical business function across industries. Many companies are still relying on manual processes, which are costly, time-consuming, and error prone. Replacing these manual processes not only reduces a company’s cost and risk but is also an essential part of a company’s digital transformation journey. 
 
 This solution accelerator empowers companies to automate the processing of PDF forms to modernize their operations, save time, and reduce cost.

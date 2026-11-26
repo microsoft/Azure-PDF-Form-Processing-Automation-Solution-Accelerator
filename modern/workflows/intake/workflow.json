@@ -1,0 +1,25 @@
+{
+  "kind": "Stateful",
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "contentVersion": "1.0.0.0",
+    "triggers": {"Check_inbox": {"type": "Recurrence", "recurrence": {"frequency": "Minute", "interval": 5}, "runtimeConfiguration": {"concurrency": {"runs": 1}}}},
+    "actions": {
+      "Messages": {"type": "Http", "inputs": {"method": "GET", "uri": "@concat('https://graph.microsoft.com/v1.0/users/', uriComponent(appsetting('SHARED_MAILBOX')), '/mailFolders/inbox/messages')", "queries": {"$select": "id,from", "$filter": "isRead eq false and hasAttachments eq true", "$top": "10"}, "authentication": {"type": "ManagedServiceIdentity", "audience": "https://graph.microsoft.com"}}, "runtimeConfiguration": {"secureData": {"properties": ["inputs", "outputs"]}}, "runAfter": {}},
+      "For_each_message": {"type": "Foreach", "foreach": "@body('Messages')['value']", "runAfter": {"Messages": ["Succeeded"]}, "actions": {
+        "Allow_sender": {"type": "If", "runAfter": {}, "expression": "@and(not(empty(items('For_each_message')?['from']?['emailAddress']?['address'])),contains(split(toLower(appsetting('TRUSTED_SENDERS')),';'),toLower(coalesce(items('For_each_message')?['from']?['emailAddress']?['address'],''))))", "actions": {
+          "List_attachments": {"type": "Http", "inputs": {"method": "GET", "uri": "@concat('https://graph.microsoft.com/v1.0/users/',uriComponent(appsetting('SHARED_MAILBOX')),'/messages/',uriComponent(items('For_each_message')['id']),'/attachments')", "queries": {"$select": "id,name,size,isInline", "$top": "100"}, "authentication": {"type": "ManagedServiceIdentity", "audience": "https://graph.microsoft.com"}}, "runtimeConfiguration": {"secureData": {"properties": ["inputs", "outputs"]}}, "runAfter": {}},
+          "For_each_file": {"type": "Foreach", "foreach": "@body('List_attachments')['value']", "runAfter": {"List_attachments": ["Succeeded"]}, "actions": {
+            "PDF": {"type": "If", "expression": "@and(equals(items('For_each_file')?['@odata.type'],'#microsoft.graph.fileAttachment'),equals(items('For_each_file')['isInline'],false),endsWith(toLower(items('For_each_file')['name']),'.pdf'))", "runAfter": {}, "actions": {
+              "Get_file": {"type": "Http", "inputs": {"method": "GET", "uri": "@concat('https://graph.microsoft.com/v1.0/users/',uriComponent(appsetting('SHARED_MAILBOX')),'/messages/',uriComponent(items('For_each_message')['id']),'/attachments/',uriComponent(items('For_each_file')['id']),'/$value')", "authentication": {"type": "ManagedServiceIdentity", "audience": "https://graph.microsoft.com"}}, "runtimeConfiguration": {"secureData": {"properties": ["inputs", "outputs"]}}, "runAfter": {}},
+              "Create_raw": {"type": "Http", "inputs": {"method": "PUT", "uri": "@concat(appsetting('RAW_BASE'),'mail/',replace(replace(base64(items('For_each_message')['id']),'/','_'),'+','-'),'/',replace(replace(base64(items('For_each_file')['id']),'/','_'),'+','-'),'.pdf')", "headers": {"x-ms-version": "2023-11-03", "x-ms-blob-type": "BlockBlob", "If-None-Match": "*", "Content-Type": "application/pdf"}, "body": "@body('Get_file')", "authentication": {"type": "ManagedServiceIdentity", "audience": "https://storage.azure.com/"}}, "runtimeConfiguration": {"secureData": {"properties": ["inputs", "outputs"]}}, "runAfter": {"Get_file": ["Succeeded"]}},
+              "Confirm_stored": {"type": "ParseJson", "inputs": {"content": "@outputs('Create_raw')['statusCode']", "schema": {"type": "integer", "enum": [201,412]}}, "runAfter": {"Create_raw": ["Succeeded","Failed"]}}
+            }, "else": {"actions": {}}}
+          }},
+          "All_attachments_seen": {"type": "ParseJson", "inputs": {"content": "@empty(body('List_attachments')?['@odata.nextLink'])", "schema": {"type": "boolean", "enum": [true]}}, "runAfter": {"For_each_file": ["Succeeded"]}}
+        }, "else": {"actions": {}}},
+        "Mark_handled": {"type": "Http", "inputs": {"method": "PATCH", "uri": "@concat('https://graph.microsoft.com/v1.0/users/',uriComponent(appsetting('SHARED_MAILBOX')),'/messages/',uriComponent(items('For_each_message')['id']))", "body": {"isRead": true}, "authentication": {"type": "ManagedServiceIdentity", "audience": "https://graph.microsoft.com"}}, "runtimeConfiguration": {"secureData": {"properties": ["inputs", "outputs"]}}, "runAfter": {"Allow_sender": ["Succeeded"]}}
+      }}
+    }, "outputs": {}
+  }
+}

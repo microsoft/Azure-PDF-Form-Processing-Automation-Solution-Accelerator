@@ -1,0 +1,53 @@
+{
+  "kind": "Stateful",
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "contentVersion": "1.0.0.0",
+    "triggers": {
+      "receive": {"type": "Request", "kind": "Http", "inputs": {"schema": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"type": "object"}}}, "runtimeConfiguration": {"secureData": {"properties": ["outputs"]}}}
+    },
+    "actions": {
+      "Initialize_state": {"type": "InitializeVariable", "inputs": {"variables": [{"name": "operationState", "type": "string", "value": "submitted"}]}, "runAfter": {}},
+      "Handshake": {
+        "type": "If", "runAfter": {"Initialize_state": ["Succeeded"]},
+        "expression": "@equals(first(triggerBody())?['eventType'], 'Microsoft.EventGrid.SubscriptionValidationEvent')",
+        "actions": {
+          "Confirm": {"type": "Response", "kind": "Http", "inputs": {"statusCode": 200, "body": {"validationResponse": "@first(triggerBody())['data']['validationCode']"}}, "runAfter": {}}
+        },
+        "else": {"actions": {
+          "Acknowledge": {"type": "Response", "kind": "Http", "inputs": {"statusCode": 200}, "runAfter": {}},
+          "Submit": {
+            "type": "Http", "runAfter": {"Acknowledge": ["Succeeded"]}, "operationOptions": "DisableAsyncPattern",
+            "inputs": {"method": "POST", "uri": "@concat(appsetting('FORMS_API'), '/api/forms')", "body": "@first(triggerBody())", "authentication": {"type": "ManagedServiceIdentity", "audience": "@appsetting('FORMS_AUDIENCE')"}},
+            "runtimeConfiguration": {"secureData": {"properties": ["inputs", "outputs"]}}
+          },
+          "Poll": {
+            "type": "Until", "runAfter": {"Submit": ["Succeeded"]}, "limit": {"count": 60, "timeout": "PT15M"}, "operationOptions": "FailWhenLimitsReached",
+            "expression": "@not(contains(createArray('running','notstarted','submitted'), variables('operationState')))",
+            "actions": {
+              "Wait": {"type": "Wait", "inputs": {"interval": {"count": 10, "unit": "Second"}}, "runAfter": {}},
+              "Status": {"type": "Http", "runAfter": {"Wait": ["Succeeded"]}, "inputs": {"method": "GET", "uri": "@concat(appsetting('FORMS_API'), body('Submit')['statusPath'])", "authentication": {"type": "ManagedServiceIdentity", "audience": "@appsetting('FORMS_AUDIENCE')"}}},
+              "Record_status": {"type": "SetVariable", "inputs": {"name": "operationState", "value": "@body('Status')['status']"}, "runAfter": {"Status": ["Succeeded"]}}
+            }
+          },
+          "Check_result": {
+            "type": "If", "runAfter": {"Poll": ["Succeeded"]},
+            "expression": "@contains(createArray('succeeded','accepted','needs_review','review_approved','review_rejected'), variables('operationState'))",
+            "actions": {
+              "Validate": {"type": "Http", "runAfter": {}, "inputs": {"method": "POST", "uri": "@concat(appsetting('FORMS_API'), body('Submit')['statusPath'], '/validate')", "authentication": {"type": "ManagedServiceIdentity", "audience": "@appsetting('FORMS_AUDIENCE')"}}},
+              "Offer_remediation": {
+                "type": "If", "runAfter": {"Validate": ["Succeeded"]},
+                "expression": "@and(equals(body('Validate')['status'],'needs_review'),startsWith(appsetting('REMEDIATION_ENDPOINT'),'https://'),not(empty(appsetting('REMEDIATION_AUDIENCE'))))",
+                "actions": {"Request_assistance": {"type": "Http", "operationOptions": "DisableAsyncPattern", "runAfter": {}, "inputs": {"method": "POST", "uri": "@appsetting('REMEDIATION_ENDPOINT')", "authentication": {"type": "ManagedServiceIdentity", "audience": "@appsetting('REMEDIATION_AUDIENCE')"}, "body": {"documentId": "@body('Validate')['id']"}}, "runtimeConfiguration": {"secureData": {"properties": ["inputs","outputs"]}}}},
+                "else": {"actions": {}}
+              }
+            },
+            "else": {"actions": {"Analysis_failed": {"type": "Terminate", "inputs": {"runStatus": "Failed", "runError": {"code": "AnalyzerFailure", "message": "Inspect the operation before retrying."}}, "runAfter": {}}}}
+          },
+          "Polling_failed": {"type": "Terminate", "inputs": {"runStatus": "Failed", "runError": {"code": "StatusUnavailable", "message": "Polling failed or reached its limit."}}, "runAfter": {"Poll": ["Failed", "TimedOut"]}}
+        }}
+      }
+    },
+    "outputs": {}
+  }
+}
